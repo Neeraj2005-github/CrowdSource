@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import './creator.css';
+import './admin.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contextapi/AuthContext'; 
 
-import { useAuth } from '../contextapi/AuthContext';
-
-export default function CreatorLogin() 
+export default function AdminLogin() 
 {
   const [formData, setFormData] = useState({
     username: '',
@@ -15,7 +14,8 @@ export default function CreatorLogin()
   const [error, setError] = useState("");
 
   const navigate = useNavigate();
-  const { setIsCreatorLoggedIn } = useAuth(); // updated auth context
+
+  const { setIsAdminLoggedIn} = useAuth();
 
   const handleChange = (e) => 
   {
@@ -26,30 +26,28 @@ export default function CreatorLogin()
   const handleSubmit = async (e) => 
   {
     e.preventDefault();
-  
     try 
     {
  const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/creator/checkcreatorlogin`,
+        `${import.meta.env.VITE_API_URL}/admin/checkadminlogin`,
         formData
-      );  
-      if(response.status === 200) 
+      );
+            if (response.status === 200) 
       {
-        setIsCreatorLoggedIn(true);
-        sessionStorage.setItem('creator', JSON.stringify(response.data)); // session key updated
-        navigate("/creatorhome");
+        setIsAdminLoggedIn(true);
+        navigate("/adminhome");
       }
-      else
+      else 
       {
-         setMessage(response.data);
+        setMessage(response.data);
       }
     } 
     catch (error) 
     {
-      if(error.response) 
+      if (error.response) 
       {
         setError(error.response.data);
-      }
+      } 
       else 
       {
         setError("An unexpected error occurred.");
@@ -59,12 +57,12 @@ export default function CreatorLogin()
 
   return (
     <div>
-      <h3 style={{ textAlign: "center", textDecoration: "underline"}}>Creator Login</h3>
-      {
-        message ?
-        <p style={{textAlign: "center", color:"green", fontWeight:"bolder"}}>{message}</p> :
-        <p style={{textAlign: "center", color:"red", fontWeight:"bolder"}}>{error}</p>
-      }
+      <h3 style={{ textAlign: "center", textDecoration: "underline" }}>Admin Login</h3>
+      {message ? (
+        <p style={{ textAlign: "center", color: "green", fontWeight: "bolder" }}>{message}</p>
+      ) : (
+        <p style={{ textAlign: "center", color: "red", fontWeight: "bolder" }}>{error}</p>
+      )}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Username</label>
