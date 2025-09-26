@@ -1,9 +1,9 @@
 services:
   mysqldb:
     image: mysql:8
-    container_name: mysql-db
+    container_name: mysql-datab
     environment:
-      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: crowdfundingdb
     ports:
       - "3309:3306"
@@ -14,9 +14,9 @@ services:
 
   backend:
     image: somesh150805/docker-backend:latest
-    container_name: springboot
+    container_name: crowdbackend
     ports:
-      - "1005:1000"
+      - "6005:6000"
     depends_on:
       - mysqldb
     restart: on-failure
@@ -25,9 +25,9 @@ services:
 
   frontend:
     image: somesh150805/docker-frontend:latest
-    container_name: react
+    container_name: crowdfrontend
     ports:
-      - "1010:80"
+      - "6010:80"
     depends_on:
       - backend
     restart: on-failure
