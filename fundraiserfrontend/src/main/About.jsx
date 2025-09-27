@@ -112,7 +112,7 @@ export default function About() {
                 <div className="stat-label">Total Funds Raised</div>
               </div>
               <div className="impact-stat">
-                <div className="stat-number">10,000+</div>
+                <div className="stat-number">10,00+</div>
                 <div className="stat-label">Successful Campaigns</div>
               </div>
               <div className="impact-stat">
