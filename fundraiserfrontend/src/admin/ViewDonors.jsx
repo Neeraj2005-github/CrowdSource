@@ -4,21 +4,17 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./ViewDonors.css";
 
-export default function ViewDonors() 
-{
+export default function ViewDonors() {
     const [donors, setDonors] = useState([]);
     const [error, setError] = useState("");
 
-    const displayDonors = async () => 
-    {
-        try 
-        {
+    const displayDonors = async () => {
+        try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/viewalldonors`);
             setDonors(response.data);
-        } 
-        catch (err) 
-        {
+        } catch (err) {
             setError("Failed to fetch donors data ... " + err.message);
         }
     };
@@ -27,40 +23,35 @@ export default function ViewDonors()
         displayDonors();
     }, []);
 
-    const deleteDonor = async (donorId) => 
-    {
-        try 
-        {
-            const response = await axios.delete(`${import.meta.env.VITE_API_URL}/admin/deletedonor?donorId=${donorId}`);
-            toast.success(response.data);  // show success toast
-            displayDonors();              // refresh donor list
-        } 
-        catch (err) 
-        {
-            console.log(err);
+    const deleteDonor = async (did) => {
+        if (!did) {
+            toast.error("Invalid donor ID");
+            return;
+        }
+
+        try {
+            const response = await axios.delete(`${import.meta.env.VITE_API_URL}/admin/deletedonor?did=${did}`);
+            toast.success(response.data?.message || "Donor deleted successfully");
+            displayDonors();
+        } catch (err) {
+            console.error(err);
             setError("Unexpected Error Occurred... " + err.message);
-            toast.error("Deletion failed: " + err.message); // show error toast
+            toast.error("Deletion failed: " + err.message);
         }
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h3 style={{ textAlign: "center", color: "black", fontWeight: "bolder" }}>
-                <u>View All Donors</u>
-            </h3>
+        <div className="view-donors-container">
+            <h3 className="view-donors-title">View All Donors</h3>
 
             <ToastContainer position="top-center" autoClose={4000} />
 
             {error ? (
-                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", color: "red" }}>
-                    {error}
-                </p>
+                <p className="error-text">{error}</p>
             ) : donors.length === 0 ? (
-                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", color: "red" }}>
-                    No Donor Data Found
-                </p>
+                <p className="no-data-text">No Donor Data Found</p>
             ) : (
-                <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                <table className="donors-table">
                     <thead>
                         <tr>
                             <th>ID</th>

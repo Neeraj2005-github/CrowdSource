@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
-import './creator.css';
+import './CreatorNavBar.css';
 import CreatorHome from './CreatorHome';
 import CreatorProfile from './CreatorProfile';
 import CreatorLogin from './CreatorLogin';
@@ -8,29 +8,46 @@ import { useAuth } from '../contextapi/AuthContext';
 import AddCampaign from './AddCampaign';
 import ViewCampaignsByCreator from './ViewCampaignsByCreator';
 import ViewBookings from './ViewBookings';
+import { Menu, X, User } from 'lucide-react';
 
-export default function CreatorNavBar() 
-{
-  const { setIsCreatorLoggedIn } = useAuth(); 
+export default function CreatorNavBar() {
+  const { setIsCreatorLoggedIn } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const handleLogout = () => 
-  {
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const handleLogout = () => {
     setIsCreatorLoggedIn(false);
     sessionStorage.clear();
   };
 
   return (
     <div>
-      <nav className="navbar">
-        <div className="logo">Welcome Creator</div>
-        <ul className="nav-links">
-          <li><Link to="/creatorhome">Home</Link></li>
-          <li><Link to="/creatorprofile">Creator Profile</Link></li>
-          <li><Link to="/addcampaign">Add New Campaign</Link></li>
-          <li><Link to="/viewcampaignsbycreator">View Campaigns</Link></li>
-          <li><Link to="/viewbookings">View Bookings</Link></li>
-          <li><Link to="/creatorlogin" onClick={handleLogout}>Logout</Link></li>
-        </ul>
+      <nav className="creator-navbar">
+        <div className="navbar-container">
+          <div className="navbar-brand">
+            <User size={28} />
+            <span className="brand-text">Creator Portal</span>
+          </div>
+
+          <ul className={`nav-links ${isMobileMenuOpen ? 'active' : ''}`}>
+            <li><Link to="/creatorhome" onClick={closeMobileMenu}>Home</Link></li>
+            <li><Link to="/creatorprofile" onClick={closeMobileMenu}>Profile</Link></li>
+            <li><Link to="/addcampaign" onClick={closeMobileMenu}>Add Campaign</Link></li>
+            <li><Link to="/viewcampaignsbycreator" onClick={closeMobileMenu}>View Campaigns</Link></li>
+            <li><Link to="/viewbookings" onClick={closeMobileMenu}>View Bookings</Link></li>
+            <li className="logout">
+              <Link to="/" onClick={() => { handleLogout(); closeMobileMenu(); }}>
+                Logout
+              </Link>
+            </li>
+          </ul>
+
+          <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </nav>
 
       <Routes>

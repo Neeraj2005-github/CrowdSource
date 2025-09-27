@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-
+import './ViewBookings.css';
 
 export default function ViewBookings() {
   const [bookings, setBookings] = useState([]);
@@ -20,7 +20,9 @@ export default function ViewBookings() {
 
   const fetchBookings = async (creatorId) => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/creator/viewbookingsbycreator/${creatorId}`);
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/creator/viewbookingsbycreator/${creatorId}`
+      );
       setBookings(response.data);
       setError('');
     } catch (err) {
@@ -31,11 +33,12 @@ export default function ViewBookings() {
 
   const updateStatus = async (bookingId, status) => {
     try {
-       const response = await axios.get(`${import.meta.env.VITE_API_URL}/creator/updatebookingstatus`, {
-        params: { id: bookingId, status: status }
-      });
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/creator/updatebookingstatus`,
+        { params: { id: bookingId, status } }
+      );
       alert(response.data);
-      fetchBookings(creatorId); // Refresh the bookings list
+      fetchBookings(creatorId); // refresh after update
     } catch (err) {
       alert('Failed to update booking status');
       console.error(err);
@@ -43,59 +46,70 @@ export default function ViewBookings() {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}>Bookings for My Campaigns</h3>
-      {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+    <div className="bookings-container">
+      <h3 className="page-title">📑 Bookings for My Campaigns</h3>
+      {error && <p className="error-text">{error}</p>}
+
       {bookings.length === 0 ? (
-        <p style={{ textAlign: 'center' }}>No bookings available for your campaigns.</p>
+        <p className="no-data">No bookings available for your campaigns.</p>
       ) : (
-        <table style={{ width: '100%', textAlign: 'center', marginTop: '20px' }}>
-          <thead style={{ backgroundColor: '#f2f2f2' }}>
-            <tr>
-              <th>Booking ID</th>
-              <th>Campaign ID</th>
-              <th>Campaign Title</th>
-              <th>Donor Name</th>
-              <th>Donor Email</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Booked Capacity</th>
-              <th>Status</th>
-              <th>Booking Time</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {bookings.map((booking, index) => (
-              <tr key={index}>
-                <td>{booking.id}</td>
-                <td>{booking.campaign.id}</td>
-                <td>{booking.campaign.title}</td>
-                <td>{booking.donor.name}</td>
-                <td>{booking.donor.email}</td>
-                <td>{booking.startdate}</td>
-                <td>{booking.enddate}</td>
-                <td>{booking.bookedcapacity}</td>
-                <td>{booking.status}</td>
-                <td>{new Date(booking.bookingtime).toLocaleString()}</td>
-                <td>
-                  <button
-                    onClick={() => updateStatus(booking.id, 'ACCEPTED')}
-                    style={{ marginRight: '5px', backgroundColor: 'green', color: 'white' }}
-                  >
-                    Accept
-                  </button>
-                  <button
-                    onClick={() => updateStatus(booking.id, 'REJECTED')}
-                    style={{ backgroundColor: 'red', color: 'white' }}
-                  >
-                    Reject
-                  </button>
-                </td>
+        <div className="table-wrapper">
+          <table className="bookings-table">
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Campaign ID</th>
+                <th>Title</th>
+                <th>Donor Name</th>
+                <th>Donor Email</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th>Booked At</th>
+                <th>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {bookings.map((booking, index) => (
+                <tr key={index}>
+                  <td>{booking.id}</td>
+                  <td>{booking.campaign.id}</td>
+                  <td>{booking.campaign.title}</td>
+                  <td>{booking.donor.name}</td>
+                  <td>{booking.donor.email}</td>
+                  <td>{booking.startdate}</td>
+                  <td>{booking.enddate}</td>
+                  <td>{booking.bookedcapacity}</td>
+                  <td>
+                    <span
+                      className={`status-badge ${booking.status.toLowerCase()}`}
+                    >
+                      {booking.status}
+                    </span>
+                  </td>
+                  <td>{new Date(booking.bookingtime).toLocaleString()}</td>
+                  <td>
+                    <div className="action-buttons">
+                      <button
+                        className="btn-accept"
+                        onClick={() => updateStatus(booking.id, 'ACCEPTED')}
+                      >
+                        Accept
+                      </button>
+                      <button
+                        className="btn-reject"
+                        onClick={() => updateStatus(booking.id, 'REJECTED')}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

@@ -1,0 +1,81 @@
+.campaigns-container {
+  padding: 2rem;
+  background: #f9fafb;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.campaigns-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.campaigns-title::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  display: block;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.error-message {
+  color: #ef4444;
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.empty-message {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.table-wrapper {
+  width: 95%;                /* increased width (was max-width: 1000px) */
+  max-width: 1400px;         /* larger max-width for bigger screens */
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;           /* more inner spacing */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  margin: 0 auto;            /* keep it centered */
+}
+
+.campaigns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;           /* slightly larger text */
+}
+
+.campaigns-table th,
+.campaigns-table td {
+  padding: 1rem 1.2rem;      /* more padding for bigger cells */
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;       /* keeps columns tidy, avoids text wrapping */
+}
+
+.campaigns-table th {
+  background: #f3f4f6;
+  font-weight: 700;
+  color: #374151;
+}
+
+.campaigns-table tbody tr:hover {
+  background: #f9fafb;
+  transition: background 0.2s ease-in-out;
+}
+
+.campaigns-table td {
+  color: #4b5563;
+}

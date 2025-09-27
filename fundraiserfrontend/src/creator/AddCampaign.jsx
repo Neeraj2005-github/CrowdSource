@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import './AddCampaign.css';
 
 export default function AddCampaign() {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ export default function AddCampaign() {
 
     const campaignData = {
       ...formData,
-      creator_id: creator.id // from session storage
+      creator_id: creator.id
     };
 
     try {
@@ -58,32 +59,32 @@ export default function AddCampaign() {
   };
 
   return (
-    <div>
-      <h3 style={{ textAlign: "center", textDecoration: "underline" }}>Add New Campaign</h3>
-      {message ? (
-        <p style={{ textAlign: "center", color: "green", fontWeight: "bolder" }}>{message}</p>
-      ) : (
-        <p style={{ textAlign: "center", color: "red", fontWeight: "bolder" }}>{error}</p>
-      )}
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Category</label>
-          <input type="text" id="category" value={formData.category} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Title</label>
-          <input type="text" id="title" value={formData.title} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea id="description" value={formData.description} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Goal</label>
-          <input type="number" step="0.01" id="goal" value={formData.goal} onChange={handleChange} required />
-        </div>
-        <button type="submit">Add Campaign</button>
-      </form>
+    <div className="add-campaign-container">
+      <div className="form-card">
+        <h3 className="form-title">Add New Campaign</h3>
+        {message && <p className="success-message">{message}</p>}
+        {error && <p className="error-message">{error}</p>}
+
+        <form onSubmit={handleSubmit} className="campaign-form">
+          <div className="form-group">
+            <label htmlFor="category">Category</label>
+            <input type="text" id="category" value={formData.category} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="title">Title</label>
+            <input type="text" id="title" value={formData.title} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Description</label>
+            <textarea id="description" value={formData.description} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="goal">Required Donation Amount ($)</label>
+            <input type="number" step="0.01" id="goal" value={formData.goal} onChange={handleChange} required />
+          </div>
+          <button type="submit" className="btn-submit">Add Campaign</button>
+        </form>
+      </div>
     </div>
   );
 }

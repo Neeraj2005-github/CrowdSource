@@ -1,4 +1,4 @@
-.donor-home-container {
+.creator-home-container {
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
   background: #f9fafb;
@@ -8,13 +8,13 @@
 .hero-section {
   display: flex;
   justify-content: center;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
 }
 
 .welcome-card {
   background: white;
   border-radius: 20px;
-  padding: 2.5rem 2rem;
+  padding: 3rem 2.5rem;
   max-width: 700px;
   width: 100%;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
@@ -28,21 +28,20 @@
 }
 
 .welcome-title {
-  font-size: 2.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1rem;
   color: #1f2937;
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #e63946, #f3722c);
+  background: linear-gradient(135deg, #082b93, #0923b6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .welcome-subtitle {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #4b5563;
   line-height: 1.6;
   margin-bottom: 2rem;
@@ -57,7 +56,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #e63946, #f3722c);
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: white;
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
@@ -68,13 +67,13 @@
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 35px rgba(230, 57, 70, 0.35);
+  box-shadow: 0 12px 35px rgba(251, 191, 36, 0.4);
 }
 
 .btn-secondary {
   background: white;
-  border: 2px solid #e63946;
-  color: #e63946;
+  border: 2px solid #667eea;
+  color: #667eea;
   padding: 0.875rem 1.75rem;
   border-radius: 12px;
   font-weight: 600;
@@ -83,7 +82,7 @@
 }
 
 .btn-secondary:hover {
-  background: #e63946;
+  background: #667eea;
   color: white;
   transform: translateY(-1px);
 }
@@ -92,7 +91,7 @@
 .stats-section {
   display: flex;
   justify-content: center;
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
 }
 
 .stats-grid {
@@ -116,9 +115,9 @@
 }
 
 .stat-number {
-  font-size: 2.3rem;
+  font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #e63946, #f3722c);
+  background: linear-gradient(135deg, #082b93, #0923b6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.5rem;
@@ -131,7 +130,7 @@
 
 /* Tips Section */
 .tips-section {
-  padding: 3rem 2rem;
+  padding: 4rem 2rem;
   background: #f3f4f6;
 }
 
@@ -181,15 +180,15 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .welcome-card { padding: 2rem 1.5rem; }
+  .welcome-card { padding: 2.5rem 2rem; }
   .welcome-title { font-size: 2rem; }
   .welcome-subtitle { font-size: 1rem; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 480px) {
-  .welcome-card { padding: 1.75rem 1.25rem; }
-  .welcome-title { font-size: 1.6rem; }
+  .welcome-card { padding: 2rem 1.5rem; }
+  .welcome-title { font-size: 1.75rem; }
   .welcome-subtitle { font-size: 0.95rem; }
   .stats-grid { grid-template-columns: 1fr; }
 }

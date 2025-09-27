@@ -4,63 +4,49 @@ import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./ViewCreators.css";
 
-export default function ViewCreators() 
-{
+export default function ViewCreators() {
     const [creators, setCreators] = useState([]);
     const [error, setError] = useState("");
 
-    const displayCreators = async () => 
-    {
-        try 
-        {
+    const displayCreators = async () => {
+        try {
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/viewallcampaigncreators`);
             setCreators(response.data);
-        } 
-        catch (err) 
-        {
+        } catch (err) {
             setError("Failed to fetch campaign creators data ... " + err.message);
-        } 
+        }
     };
 
     useEffect(() => {
         displayCreators();
     }, []);
 
-    const deleteCreator = async (cid) => 
-    {
-        try 
-        {
+    const deleteCreator = async (cid) => {
+        try {
             const response = await axios.delete(`${import.meta.env.VITE_API_URL}/admin/deletecreator?cid=${cid}`);
-            toast.success(response.data);  // show success toast
-            displayCreators();             // refresh creators list
-        } 
-        catch (err) 
-        {
+            toast.success(response.data);
+            displayCreators();
+        } catch (err) {
             console.log(err);
             setError("Unexpected Error Occurred... " + err.message);
-            toast.error("Deletion failed: " + err.message); // show error toast
+            toast.error("Deletion failed: " + err.message);
         }
     };
 
     return (
-        <div style={{ padding: "20px" }}>
-            <h3 style={{ textAlign: "center", color: "black", fontWeight: "bolder" }}>
-                <u>View All Campaign Creators</u>
-            </h3>
+        <div className="view-creators-container">
+            <h3 className="view-creators-title">View All Campaign Creators</h3>
 
             <ToastContainer position="top-center" autoClose={4000} />
 
             {error ? (
-                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", color: "red" }}>
-                    {error}
-                </p>
+                <p className="error-text">{error}</p>
             ) : creators.length === 0 ? (
-                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", color: "red" }}>
-                    No Campaign Creators Data Found
-                </p>
+                <p className="no-data-text">No Campaign Creators Data Found</p>
             ) : (
-                <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
+                <table className="creators-table">
                     <thead>
                         <tr>
                             <th>ID</th>

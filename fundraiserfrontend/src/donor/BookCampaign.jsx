@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './BookCampaign.css';
 
-
-export default function BookCampaign() 
-{
+export default function BookCampaign() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
-  const campaignId = queryParams.get('campaignid'); // changed from eventid
+  const campaignId = queryParams.get('campaignid');
 
   const [donor, setDonor] = useState(null);
   const [formData, setFormData] = useState({
@@ -18,12 +17,12 @@ export default function BookCampaign()
   });
 
   useEffect(() => {
-    const storedDonor = sessionStorage.getItem("donor"); // changed from customer
+    const storedDonor = sessionStorage.getItem("donor");
     if (storedDonor) {
       setDonor(JSON.parse(storedDonor));
     } else {
       alert("Donor not logged in!");
-      navigate('/donorlogin'); // changed path
+      navigate('/donorlogin');
     }
   }, [navigate]);
 
@@ -36,8 +35,8 @@ export default function BookCampaign()
     e.preventDefault();
 
     const bookingData = {
-      campaign: { id: campaignId }, // changed from event
-      donor: { id: donor.id },      // changed from customer
+      campaign: { id: campaignId },
+      donor: { id: donor.id },
       ...formData,
       status: 1
     };
@@ -50,7 +49,7 @@ export default function BookCampaign()
       });
       if (response.ok) {
         alert("Campaign booked successfully!");
-        navigate('/bookedcampaigns'); // changed path
+        navigate('/bookedcampaigns');
       } else {
         alert("Failed to book campaign.");
       }
@@ -60,26 +59,32 @@ export default function BookCampaign()
     }
   };
 
+  if (!donor) {
+    return <p className="loading-message">Loading donor info...</p>;
+  }
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h3 style={{ textAlign: 'center' }}>Book Campaign</h3>
-      <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: 'auto' }}>
-        <div>
-          <label>Start Date: </label>
-          <input type="date" name="startdate" value={formData.startdate} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>End Date: </label>
-          <input type="date" name="enddate" value={formData.enddate} onChange={handleChange} required />
-        </div>
-        <div>
-          <label>Capacity: </label>
-          <input type="number" name="bookedcapacity" min="1" value={formData.bookedcapacity} onChange={handleChange} required />
-        </div>
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
-          <button type="submit">Confirm Booking</button>
-        </div>
-      </form>
+    <div className="book-campaign-container">
+      <div className="book-campaign-card">
+        <h2 className="book-campaign-title">Book Campaign</h2>
+        <form onSubmit={handleSubmit} className="book-campaign-form">
+          <div className="form-group">
+            <label>Start Date</label>
+            <input type="date" name="startdate" value={formData.startdate} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>End Date</label>
+            <input type="date" name="enddate" value={formData.enddate} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <label>Donating Amount</label>
+            <input type="number" name="bookedcapacity" min="1" value={formData.bookedcapacity} onChange={handleChange} required />
+          </div>
+          <div className="form-actions">
+            <button type="submit" className="btn-primary">Confirm Booking</button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

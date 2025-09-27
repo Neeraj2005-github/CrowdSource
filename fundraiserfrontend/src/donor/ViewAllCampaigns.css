@@ -1,0 +1,107 @@
+.campaigns-container {
+  padding: 2rem;
+  background: #f9fafb;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.campaigns-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  position: relative;
+}
+
+.campaigns-title::after {
+  content: "";
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  display: block;
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+.empty-message {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.table-wrapper {
+  width: 95%;
+  max-width: 1400px;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+.campaigns-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.campaigns-table th,
+.campaigns-table td {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.campaigns-table th {
+  background: #f3f4f6;
+  font-weight: 700;
+  color: #374151;
+}
+
+.campaigns-table tbody tr:hover {
+  background: #f9fafb;
+  transition: background 0.2s ease-in-out;
+}
+
+.campaigns-table td {
+  color: #4b5563;
+}
+
+.campaigns-table input {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.book-button {
+  background: #667eea;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.book-button:hover {
+  background: #5563d6;
+  transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .campaigns-table th,
+  .campaigns-table td {
+    padding: 0.8rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

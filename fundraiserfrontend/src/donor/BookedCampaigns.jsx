@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import './BookedCampaigns.css';
 
 export default function BookedCampaigns() {
   const [bookedCampaigns, setBookedCampaigns] = useState([]);
@@ -7,7 +8,7 @@ export default function BookedCampaigns() {
 
   useEffect(() => {
     const fetchBookedCampaigns = async () => {
-      const storedDonor = sessionStorage.getItem('donor'); // changed from customer
+      const storedDonor = sessionStorage.getItem('donor');
       if (storedDonor) {
         const donorData = JSON.parse(storedDonor);
         setDonor(donorData);
@@ -21,21 +22,27 @@ export default function BookedCampaigns() {
         alert('Please log in to view your booked campaigns.');
       }
     };
-
     fetchBookedCampaigns();
   }, []);
 
+  if (!donor) {
+    return <p className="loading-message">Loading donor details...</p>;
+  }
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h3 style={{ textAlign: 'center', textDecoration: 'underline' }}>Your Booked Campaigns</h3>
-      {donor ? (
-        <div>
-          <table style={{ width: '100%', textAlign: 'center', marginBottom: '30px' }}>
-            <thead style={{ backgroundColor: '#f2f2f2' }}>
+    <div className="booked-campaigns-container">
+      <h2 className="booked-campaigns-title">Your Booked Campaigns</h2>
+
+      {bookedCampaigns.length === 0 ? (
+        <p className="empty-message">No booked campaigns found.</p>
+      ) : (
+        <div className="table-wrapper">
+          <table className="booked-campaigns-table">
+            <thead>
               <tr>
                 <th>Booking ID</th>
-                <th>Campaign Category</th>
-                <th>Campaign Title</th>
+                <th>Category</th>
+                <th>Title</th>
                 <th>Start Date</th>
                 <th>End Date</th>
                 <th>Booked Capacity</th>
@@ -44,8 +51,8 @@ export default function BookedCampaigns() {
               </tr>
             </thead>
             <tbody>
-              {bookedCampaigns.length > 0 ? bookedCampaigns.map((campaign, index) => (
-                <tr key={index}>
+              {bookedCampaigns.map((campaign) => (
+                <tr key={campaign.id}>
                   <td>{campaign.id}</td>
                   <td>{campaign.campaign.category}</td>
                   <td>{campaign.campaign.title}</td>
@@ -55,16 +62,10 @@ export default function BookedCampaigns() {
                   <td>{campaign.status}</td>
                   <td>{new Date(campaign.bookingtime).toLocaleString()}</td>
                 </tr>
-              )) : (
-                <tr>
-                  <td colSpan="8">No booked campaigns found.</td>
-                </tr>
-              )}
+              ))}
             </tbody>
           </table>
         </div>
-      ) : (
-        <p>Loading your donor details...</p>
       )}
     </div>
   );
