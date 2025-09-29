@@ -4,7 +4,7 @@ services:
     container_name: mysql-datab
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: crowdfundingdb
+      MYSQL_DATABASE: crowddb
     ports:
       - "3305:3306"
     volumes:
