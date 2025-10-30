@@ -29,7 +29,9 @@ jobs:
           context: ./FundRaiser
           file: ./FundRaiser/backend.Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowd-backend:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/crowd-backend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/crowd-backend:${{ github.sha }}
 
       - name: Build and push frontend image
         uses: docker/build-push-action@v5
@@ -37,4 +39,22 @@ jobs:
           context: ./fundraiserfrontend
           file: ./fundraiserfrontend/frontend.Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/crowd-frontend:latest
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/crowd-frontend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/crowd-frontend:${{ github.sha }}
+
+  # Optional automatic deployment (uncomment to enable)
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build-and-push
+  #   steps:
+  #     - name: SSH into server and redeploy
+  #       uses: appleboy/ssh-action@v1.1.0
+  #       with:
+  #         host: ${{ secrets.SERVER_IP }}
+  #         username: ${{ secrets.SERVER_USER }}
+  #         key: ${{ secrets.SERVER_SSH_KEY }}
+  #         script: |
+  #           cd /path/to/project
+  #           docker-compose pull
+  #           docker-compose up -d
