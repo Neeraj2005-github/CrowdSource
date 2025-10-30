@@ -13,7 +13,9 @@ export default function BookedCampaigns() {
         const donorData = JSON.parse(storedDonor);
         setDonor(donorData);
         try {
-          const response = await axios.get(`${import.meta.env.VITE_API_URL}/donor/bookedcampaigns/${donorData.id}`);
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/donor/bookedcampaigns/${donorData.id}`
+          );
           setBookedCampaigns(response.data);
         } catch (error) {
           console.error('Error fetching booked campaigns:', error);
@@ -22,6 +24,7 @@ export default function BookedCampaigns() {
         alert('Please log in to view your booked campaigns.');
       }
     };
+
     fetchBookedCampaigns();
   }, []);
 
@@ -31,7 +34,16 @@ export default function BookedCampaigns() {
 
   return (
     <div className="booked-campaigns-container">
-      <h2 className="booked-campaigns-title">Your Booked Campaigns</h2>
+      <section className="hero-section">
+        <h2 className="hero-title">
+          Hello, <span className="gradient-text">{donor.name}</span>
+        </h2>
+        <p className="hero-subtitle">
+          Here’s a summary of all your booked campaigns and donations.
+        </p>
+      </section>
+
+      <h3 className="booked-campaigns-title">Your Booked Campaigns</h3>
 
       {bookedCampaigns.length === 0 ? (
         <p className="empty-message">No booked campaigns found.</p>
@@ -54,13 +66,17 @@ export default function BookedCampaigns() {
               {bookedCampaigns.map((campaign) => (
                 <tr key={campaign.id}>
                   <td>{campaign.id}</td>
-                  <td>{campaign.campaign.category}</td>
-                  <td>{campaign.campaign.title}</td>
+                  <td>{campaign.campaign?.category}</td>
+                  <td>{campaign.campaign?.title}</td>
                   <td>{campaign.startdate}</td>
                   <td>{campaign.enddate}</td>
                   <td>{campaign.bookedcapacity}</td>
                   <td>{campaign.status}</td>
-                  <td>{new Date(campaign.bookingtime).toLocaleString()}</td>
+                  <td>
+                    {campaign.bookingtime
+                      ? new Date(campaign.bookingtime).toLocaleString()
+                      : 'N/A'}
+                  </td>
                 </tr>
               ))}
             </tbody>

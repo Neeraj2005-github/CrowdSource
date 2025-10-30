@@ -5,14 +5,14 @@ import './ViewBookings.css';
 export default function ViewBookings() {
   const [bookings, setBookings] = useState([]);
   const [error, setError] = useState('');
-  const [creatorId, setCreatorId] = useState(null);
+  const [creator, setCreator] = useState(null);
 
   useEffect(() => {
     const storedCreator = sessionStorage.getItem('creator');
     if (storedCreator) {
-      const creator = JSON.parse(storedCreator);
-      setCreatorId(creator.id);
-      fetchBookings(creator.id);
+      const creatorData = JSON.parse(storedCreator);
+      setCreator(creatorData);
+      fetchBookings(creatorData.id);
     } else {
       setError('Creator not logged in.');
     }
@@ -26,7 +26,7 @@ export default function ViewBookings() {
       setBookings(response.data);
       setError('');
     } catch (err) {
-      setError('Failed to fetch bookings');
+      setError('Failed to fetch bookings.');
       setBookings([]);
     }
   };
@@ -38,15 +38,24 @@ export default function ViewBookings() {
         { params: { id: bookingId, status } }
       );
       alert(response.data);
-      fetchBookings(creatorId); // refresh after update
+      fetchBookings(creator.id); // Refresh after update
     } catch (err) {
-      alert('Failed to update booking status');
+      alert('Failed to update booking status.');
       console.error(err);
     }
   };
 
   return (
     <div className="bookings-container">
+      <section className="hero-section">
+        <h2 className="hero-title">
+          Hello, <span className="gradient-text">{creator?.name}</span>
+        </h2>
+        <p className="hero-subtitle">
+          Manage and monitor your campaign bookings efficiently.
+        </p>
+      </section>
+
       <h3 className="page-title">📑 Bookings for My Campaigns</h3>
       {error && <p className="error-text">{error}</p>}
 
@@ -62,11 +71,11 @@ export default function ViewBookings() {
                 <th>Title</th>
                 <th>Donor Name</th>
                 <th>Donor Email</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>Capacity</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Booked Capacity</th>
                 <th>Status</th>
-                <th>Booked At</th>
+                <th>Booking Time</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -82,13 +91,15 @@ export default function ViewBookings() {
                   <td>{booking.enddate}</td>
                   <td>{booking.bookedcapacity}</td>
                   <td>
-                    <span
-                      className={`status-badge ${booking.status.toLowerCase()}`}
-                    >
+                    <span className={`status-badge ${booking.status.toLowerCase()}`}>
                       {booking.status}
                     </span>
                   </td>
-                  <td>{new Date(booking.bookingtime).toLocaleString()}</td>
+                  <td>
+                    {booking.bookingtime
+                      ? new Date(booking.bookingtime).toLocaleString()
+                      : 'N/A'}
+                  </td>
                   <td>
                     <div className="action-buttons">
                       <button
