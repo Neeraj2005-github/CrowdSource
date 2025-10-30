@@ -57,9 +57,9 @@ export default function BookedCampaigns() {
                 <th>Title</th>
                 <th>Start Date</th>
                 <th>End Date</th>
-                <th>Booked Capacity</th>
+                <th>Donated Capacity</th>
                 <th>Status</th>
-                <th>Booking Time</th>
+                <th>Donating Time</th>
               </tr>
             </thead>
             <tbody>
