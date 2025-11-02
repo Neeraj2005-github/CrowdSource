@@ -11,10 +11,11 @@ export default function BookCampaign() {
 
   const [donor, setDonor] = useState(null);
   const [formData, setFormData] = useState({
-    startdate: '',
-    enddate: '',
     bookedcapacity: 1
   });
+
+  // Automatically take current date (local)
+  const currentDate = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
     const storedDonor = sessionStorage.getItem("donor");
@@ -28,16 +29,19 @@ export default function BookCampaign() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({...formData, [name]: value});
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Send current date automatically
     const bookingData = {
       campaign: { id: campaignId },
       donor: { id: donor.id },
-      ...formData,
+      startdate: currentDate,     // backend non-null safety
+      enddate: currentDate,       // same date as start
+      bookedcapacity: formData.bookedcapacity,
       status: 1
     };
 
@@ -47,6 +51,7 @@ export default function BookCampaign() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookingData)
       });
+
       if (response.ok) {
         alert("Campaign booked successfully!");
         navigate('/bookedcampaigns');
@@ -69,17 +74,22 @@ export default function BookCampaign() {
         <h2 className="book-campaign-title">Book Campaign</h2>
         <form onSubmit={handleSubmit} className="book-campaign-form">
           <div className="form-group">
-            <label>Start Date</label>
-            <input type="date" name="startdate" value={formData.startdate} onChange={handleChange} required />
+            <label>Current Date</label>
+            <input type="text" value={currentDate} readOnly className="readonly-input" />
           </div>
-          <div className="form-group">
-            <label>End Date</label>
-            <input type="date" name="enddate" value={formData.enddate} onChange={handleChange} required />
-          </div>
+
           <div className="form-group">
             <label>Donating Amount</label>
-            <input type="number" name="bookedcapacity" min="1" value={formData.bookedcapacity} onChange={handleChange} required />
+            <input
+              type="number"
+              name="bookedcapacity"
+              min="1"
+              value={formData.bookedcapacity}
+              onChange={handleChange}
+              required
+            />
           </div>
+
           <div className="form-actions">
             <button type="submit" className="btn-primary">Confirm Booking</button>
           </div>

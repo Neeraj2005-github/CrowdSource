@@ -55,11 +55,9 @@ export default function BookedCampaigns() {
                 <th>Booking ID</th>
                 <th>Category</th>
                 <th>Title</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Donated Capacity</th>
+                <th>Booked Capacity</th>
                 <th>Status</th>
-                <th>Donating Time</th>
+                <th>Booking Time</th>
               </tr>
             </thead>
             <tbody>
@@ -68,8 +66,6 @@ export default function BookedCampaigns() {
                   <td>{campaign.id}</td>
                   <td>{campaign.campaign?.category}</td>
                   <td>{campaign.campaign?.title}</td>
-                  <td>{campaign.startdate}</td>
-                  <td>{campaign.enddate}</td>
                   <td>{campaign.bookedcapacity}</td>
                   <td>{campaign.status}</td>
                   <td>
