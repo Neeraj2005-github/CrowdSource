@@ -42,7 +42,7 @@ export default function BookCampaign() {
       startdate: currentDate,     // backend non-null safety
       enddate: currentDate,       // same date as start
       bookedcapacity: formData.bookedcapacity,
-      status: 1
+      status: 'PENDING_PAYMENT'
     };
 
     try {
@@ -53,7 +53,7 @@ export default function BookCampaign() {
       });
 
       if (response.ok) {
-        alert("Campaign booked successfully!");
+        alert("Campaign booked. Please complete payment from Booked Campaigns.");
         navigate('/bookedcampaigns');
       } else {
         alert("Failed to book campaign.");

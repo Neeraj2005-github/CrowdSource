@@ -85,6 +85,17 @@ public class DonorServiceImpl implements DonorService
 	@Override
 	public String bookcampaign(BookCampaign bookCampaign) 
 	{
+		// Ensure initial status is pending approval before saving
+		try {
+			// set status to PENDING_APPROVAL if not already set
+			if (bookCampaign.getStatus() == null || bookCampaign.getStatus().trim().isEmpty()) {
+				bookCampaign.setStatus("PENDING_APPROVAL");
+			} else if (!bookCampaign.getStatus().equalsIgnoreCase("PENDING_APPROVAL")) {
+				bookCampaign.setStatus("PENDING_APPROVAL");
+			}
+		} catch (Exception ignored) {
+			// in case entity lacks getter/setter, proceed without status enforcement
+		}
 		bookCampaignRepository.save(bookCampaign);
 		return "Campaign Booked Successfully";
 	}

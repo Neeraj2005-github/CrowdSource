@@ -15,6 +15,7 @@ import com.klef.cicd.model.Donor;
 public interface BookCampaignRepository extends JpaRepository<BookCampaign, Integer>
 {
     public List<BookCampaign> findByDonor(Donor donor);
+    public BookCampaign findByProviderOrderId(String providerOrderId);
     
     @Query("SELECT b from BookCampaign b where b.campaign.creator.id = ?1")
     public List<BookCampaign> getbookingsbyCreator(int cid);

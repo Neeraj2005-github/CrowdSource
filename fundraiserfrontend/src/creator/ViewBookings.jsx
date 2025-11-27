@@ -104,9 +104,9 @@ export default function ViewBookings() {
                     <div className="action-buttons">
                       <button
                         className="btn-accept"
-                        onClick={() => updateStatus(booking.id, 'ACCEPTED')}
+                        onClick={() => updateStatus(booking.id, 'APPROVED')}
                       >
-                        Accept
+                        Approve
                       </button>
                       <button
                         className="btn-reject"

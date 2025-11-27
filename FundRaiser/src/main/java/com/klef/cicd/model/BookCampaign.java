@@ -33,6 +33,18 @@ public class BookCampaign
     @Column(nullable = false)
     private String status;
 
+    @Column(length = 20)
+    private String paymentProvider; // e.g., RAZORPAY
+
+    @Column(length = 64)
+    private String providerOrderId; // Razorpay order_id
+
+    @Column(length = 64)
+    private String providerPaymentId; // Razorpay payment_id
+
+    @Column(length = 8)
+    private String currency; // e.g., INR
+
     // Keep DB column name donatingtime, expose as bookingtime in JSON and Java
     @CreationTimestamp
     @Column(name = "donatingtime", nullable = false)
@@ -62,13 +74,27 @@ public class BookCampaign
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
+    public String getPaymentProvider() { return paymentProvider; }
+    public void setPaymentProvider(String paymentProvider) { this.paymentProvider = paymentProvider; }
+
+    public String getProviderOrderId() { return providerOrderId; }
+    public void setProviderOrderId(String providerOrderId) { this.providerOrderId = providerOrderId; }
+
+    public String getProviderPaymentId() { return providerPaymentId; }
+    public void setProviderPaymentId(String providerPaymentId) { this.providerPaymentId = providerPaymentId; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
     public LocalDateTime getBookingtime() { return bookingtime; }
     public void setBookingtime(LocalDateTime bookingtime) { this.bookingtime = bookingtime; }
 
     @Override
     public String toString() {
         return "BookCampaign [id=" + id + ", campaign=" + campaign + ", donor=" + donor + ", startdate=" + startdate
-                + ", enddate=" + enddate + ", bookedcapacity=" + bookedcapacity + ", status=" + status
-                + ", bookingtime=" + bookingtime + "]";
+            + ", enddate=" + enddate + ", bookedcapacity=" + bookedcapacity + ", status=" + status
+            + ", paymentProvider=" + paymentProvider + ", providerOrderId=" + providerOrderId
+            + ", providerPaymentId=" + providerPaymentId + ", currency=" + currency
+            + ", bookingtime=" + bookingtime + "]";
     }
 }
