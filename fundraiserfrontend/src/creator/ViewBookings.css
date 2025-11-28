@@ -95,6 +95,10 @@
   background-color: #28a745;
 }
 
+.status-badge.approved {
+  background-color: #28a745;
+}
+
 .status-badge.rejected {
   background-color: #dc3545;
 }
