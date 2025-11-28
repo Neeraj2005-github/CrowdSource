@@ -9,7 +9,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.Utils;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.klef.cicd.config.RazorpayProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,14 +18,8 @@ import java.util.Map;
 @Service
 public class PaymentServiceImpl implements PaymentService {
 
-    @Value("${razorpay.keyId}")
-    private String razorpayKeyId;
-
-    @Value("${razorpay.keySecret}")
-    private String razorpayKeySecret;
-
-    @Value("${razorpay.webhookSecret}")
-    private String razorpayWebhookSecret;
+    @Autowired
+    private RazorpayProperties razorpayProperties;
 
     @Autowired
     private BookCampaignRepository bookCampaignRepository;
@@ -48,6 +42,8 @@ public class PaymentServiceImpl implements PaymentService {
 
         try {
             // If keys are not configured (using fallbacks), return a mock order to avoid auth errors in dev/test
+            String razorpayKeyId = razorpayProperties.getKeyId();
+            String razorpayKeySecret = razorpayProperties.getKeySecret();
             boolean mockMode = (razorpayKeyId == null || razorpayKeyId.equals("rzp_test_dummy") || razorpayKeySecret == null || razorpayKeySecret.equals("dummy_secret"));
             if (mockMode) {
                 String fakeOrderId = "order_mock_" + bookingId;
@@ -99,7 +95,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
         try {
             // Verify signature
-            boolean isValid = Utils.verifyWebhookSignature(payload, signatureHeader, razorpayWebhookSecret);
+            boolean isValid = Utils.verifyWebhookSignature(payload, signatureHeader, razorpayProperties.getWebhookSecret());
             if (!isValid) {
                 throw new SecurityException("Invalid webhook signature");
             }
